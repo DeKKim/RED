@@ -50,12 +50,153 @@ address
 broken-login
 manual-review
 rundown
-slightly-broken
-ping-station
-downloader-v1
-puzzled)
+
+ამოცანა 1 
+შექმენით ფუნქცია square_list_in_parallel რომელსაც გადაეცემა int ების მასივი, მასივში
+
+ელემენტების რაოდენობა - num_elemenets და thread ების რაოდენობა - num_threads.
+
+1. ფუნქციამ უნდა მოსტარტოს num_threads რაოდენობის ნაკადი (counter threads).
+
+2. Int ების მასივი უნდა დაიყოს num_threads -ნაწილად.
+
+3. თითოეულმა thread -მა უნდა დაითვალოს მასივის შესაბამისი სეგმენტის
+
+ელემენტების კვადრატების ჯამი.
+
+4. მიღებული ჯამები უნდა შეიკრიბოს გლობალურ ცვლადში int sum_of_all_squares.
+
+5. main ფუნქციაში ასევე უნდა მოისტარტოს monitoring thread, რომელიც
+
+დაელოდება counter thread ების მუშაობის დამთავრებას და დალოგავს
+
+sum_of_all_square ცვლადის მნიშვნელობას. (monitoring thread ის
+
+იმპლემენტაციაში არ შეიძლება counter thread -ებზე join -ით დალოდება, უნდა
+
+გამოიყენოთ სინქრონიზაციის მექანიზმები).
+
+6. main ფუნქცია უნდა დაელოდოს monitoring და counter thread ების მუშაობის
+
+დამთავრებას (გამოიყენეთ join).
+
+ამოცანა 2
+
+დაწერეთ ფუნქცია remove_nth_elements - racket ის გამოყენებით რომლიც მიიღებს სიას
+
+და რიცხვს (N), შედეგად კი დააბრუნებს ახალ სიას რომელშიც წაშლის თავდაპირველი სიის
+
+ყოველ N ინდექსზე მყოფ ელემენტს.
 
 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+
+int* array;
+int sum_of_all_squares = 0;
+int threads_completed = 0;
+pthread_mutex_t lock;
+pthread_cond_t cond;
+
+typedef struct {
+    int start_idx;
+    int end_idx;
+} ThreadData;
+
+void* counter_thread(void* arg) {
+    ThreadData* data = (ThreadData*)arg;
+    int local_sum = 0;
+
+    for (int i = data->start_idx; i < data->end_idx; i++) {
+        local_sum += array[i] * array[i];
+    }
+
+    pthread_mutex_lock(&lock);
+    sum_of_all_squares += local_sum;
+    threads_completed++;
+    pthread_cond_signal(&cond); // notify monitoring thread
+    pthread_mutex_unlock(&lock);
+
+    free(data);
+    return NULL;
+}
+
+void* monitoring_thread(void* arg) {
+    int num_threads = *(int*)arg;
+
+    pthread_mutex_lock(&lock);
+    while (threads_completed < num_threads) {
+        pthread_cond_wait(&cond, &lock);
+    }
+    pthread_mutex_unlock(&lock);
+
+    printf("✅ Final sum of all squares: %d\n", sum_of_all_squares);
+    return NULL;
+}
+
+void square_list_in_parallel(int* input_array, int num_elements, int num_threads) {
+    array = input_array;
+    pthread_t threads[num_threads];
+    pthread_t monitor;
+
+    pthread_mutex_init(&lock, NULL);
+    pthread_cond_init(&cond, NULL);
+
+    int chunk_size = num_elements / num_threads;
+    int remaining = num_elements % num_threads;
+
+    // Start counter threads
+    for (int i = 0; i < num_threads; i++) {
+        ThreadData* data = malloc(sizeof(ThreadData));
+        data->start_idx = i * chunk_size;
+        data->end_idx = (i == num_threads - 1) ? (i + 1) * chunk_size + remaining : (i + 1) * chunk_size;
+
+        pthread_create(&threads[i], NULL, counter_thread, data);
+    }
+
+    // Start monitoring thread
+    pthread_create(&monitor, NULL, monitoring_thread, &num_threads);
+
+    // Join all counter threads
+    for (int i = 0; i < num_threads; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Join monitoring thread
+    pthread_join(monitor, NULL);
+
+    pthread_mutex_destroy(&lock);
+    pthread_cond_destroy(&cond);
+}
+
+// Example usage
+int main() {
+    int data[] = {1, 2, 3, 4, 5, 6, 7, 8};
+    int num_elements = sizeof(data) / sizeof(data[0]);
+    int num_threads = 3;
+
+    square_list_in_parallel(data, num_elements, num_threads);
+    return 0;
+}
+
+
+
+
+#lang racket
+
+(define (remove-nth-elements lst n)
+  (define (helper lst index)
+    (cond
+      [(null? lst) '()]
+      [(= (remainder index n) 0) (helper (cdr lst) (+ index 1))]
+      [else (cons (car lst) (helper (cdr lst) (+ index 1)))]))
+  (helper lst 1)) ; start index from 1
+
+;; მაგალითი:
+(remove-nth-elements '(a b c d e f g h) 3) ; დააბრუნებს '(a b d e g h)
 
 
 
